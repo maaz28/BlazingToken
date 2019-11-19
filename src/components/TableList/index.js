@@ -24,22 +24,26 @@ export default function TableList () {
     const fetchData = async () => {
       const nukToDostribute = await TokenController.methods.balanceOf(CONTRACT_ADDRESS).call()
       const totalSupply = await TokenController.methods.totalSupply().call()
-      var result = await axios(
-        `${API_BASE_URL}/getTopTokenHolders/0x9E12c837159deDc233719EDf5A4eC2405644E8a7?apiKey=freekey&limit=${DATA_LIMIT}`
-      )
-      console.log(result.data.holders)
-      result = result.data.holders.map((item, i) => item.address)
-      console.log(result)
+
       console.log('Balance of function returns', nukToDostribute)
       console.log('total supply', totalSupply)
       settotalSupply(totalSupply / CONTRACT_DECIMAL_VALUE)
       settokenDistribute(nukToDostribute / CONTRACT_DECIMAL_VALUE)
-      setAddresses(result)
     }
     fetchData()
   }, [])
 
   const distributeToken = async () => {
+
+    var result = await axios(
+      `${API_BASE_URL}/getTopTokenHolders/0x6903003d96da868c144ad1c59ddd4c7b72ea077f?apiKey=freekey&limit=${DATA_LIMIT}`
+    )
+    console.log(result.data.holders)
+    result = result.data.holders.map((item, i) => item.address)
+    console.log(result)
+    setAddresses(result)
+
+
     // call top100 token distributor function here
     const accounts = await web3.eth.getAccounts()
     console.log('Accounts:' + accounts)
@@ -78,7 +82,7 @@ export default function TableList () {
 
       {
         (distribute)
-          ? <div> Track your transaction <a href={`https://rinkeby.etherscan.io/tx/${hash}`}>here on Etherscan</a> </div>
+          ? <div> Track your transaction <a target='_blank' href={`https://etherscan.io/tx/${hash}`}>here on Etherscan</a> </div>
           : <Button content='Distribute Tokens' title='Tokens will be distributed to top 100 token holders' secondary onClick={distributeToken} />
       }
     </div>
