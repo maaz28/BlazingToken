@@ -1,0 +1,12 @@
+  .table-container {
+    width : 95%;
+    margin: 0 auto;
+    margin-bottom: 2em;
+  }
+  .card-view{
+    margin-bottom: 8px;
+  }
+  .card-value{
+    font-weight: bold;
+    font-size: 1.1em;
+  }
